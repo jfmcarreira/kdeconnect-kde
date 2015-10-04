@@ -46,7 +46,27 @@ KNotification* TelephonyPlugin::createNotification(const NetworkPackage& np)
 {
     const QString event = np.get<QString>("event");
     const QString phoneNumber = np.get<QString>("phoneNumber", i18n("unknown number"));
-    const QString contactName = np.get<QString>("contactName", phoneNumber);
+    const QString contactName = np.get<QString>("contactName", i18n("unknown"));
+    bool show_name = config()->get("showName", true);
+    bool show_number = config()->get("showNumber", true);
+    QString contactInformation;
+
+    if (!show_name && !show_number)
+    {
+        show_name = show_number = true;
+    }
+    if (show_name)
+    {
+        contactInformation = contactName;
+        if ( show_number)
+        {
+            contactInformation += " (" + phoneNumber + ")";
+        }
+    }
+    else
+    {
+        contactInformation = phoneNumber;
+    }
 
     QString content, type, icon;
     KNotification::NotificationFlags flags = KNotification::CloseOnTimeout | KNotification::CloseWhenWidgetActivated;
@@ -66,7 +86,7 @@ KNotification* TelephonyPlugin::createNotification(const NetworkPackage& np)
         type = QStringLiteral("smsReceived");
         icon = QStringLiteral("mail-receive");
         QString messageBody = np.get<QString>("messageBody","");
-        content = i18n("SMS from %1<br>%2", contactName, messageBody);
+        content = i18n("SMS from %1<br>%2", contactInformation, messageBody);
         flags |= KNotification::Persistent;
     } else if (event == "talking") {
         return nullptr;

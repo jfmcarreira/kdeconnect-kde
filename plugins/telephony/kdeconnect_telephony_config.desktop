@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Service
+X-KDE-ServiceTypes=KCModule
+
+X-KDE-Library=kdeconnect_telephony_config
+X-KDE-ParentComponents=kdeconnect_telephony
+
+Name=Telephony plugin settings
+Name[en_GB]=Telephony plugin settings
+Name[pt]=Configuração do 'plugin' de chamadas/sms
+Name[pt_BR]=Configuração do 'plugin' de chamadas/sms
+
+Categories=Qt;KDE;X-KDE-settings-kdeconnect;
